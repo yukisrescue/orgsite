@@ -2,7 +2,11 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "yukis-rescue-org",
   "compatibility_date": "2026-09-01",
+  "workers_dev": true,
   "assets": {
     "directory": "./"
-  }
+  },
+  "routes": [
+    { "pattern": "www.yukisrescue.org", "custom_domain": true }
+  ]
 }

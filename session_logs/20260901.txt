@@ -1,0 +1,32 @@
+Command log — full session:
+
+# Initial inspection
+grep -n "hero" index.html
+which wrangler
+npx wrangler --version
+node --version
+npm --version
+npx wrangler whoami
+
+# Files created/edited (not shell commands, but part of setup):
+#   wrangler.jsonc   — new
+#   .assetsignore    — new
+#   package.json     — new
+#   .gitignore       — edited (added node_modules/, .wrangler/)
+
+# Install wrangler locally
+npm install
+
+# Verify asset selection before deploying (dry runs, iterated on .assetsignore)
+npx wrangler deploy --dry-run --outdir=/tmp/wrangler-dryrun-check
+WRANGLER_LOG=debug npx wrangler deploy --dry-run --outdir=/tmp/wrangler-dryrun-check5
+
+# First real deploy (workers.dev only)
+npx wrangler deploy
+
+# Added custom domain routes to wrangler.jsonc, redeployed — apex failed (external DNS)
+npx wrangler deploy
+
+# Removed apex route, re-added workers_dev:true, kept www route — www also failed (external DNS)
+npx wrangler deploy
+
