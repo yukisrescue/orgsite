@@ -1,0 +1,111 @@
+services:
+  mariadb:
+    image: mariadb:11
+    container_name: yukis-mariadb
+    environment:
+      MARIADB_DATABASE: ${WP_DB_NAME}
+      MARIADB_USER: ${WP_DB_USER}
+      MARIADB_PASSWORD: ${WP_DB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${WP_DB_ROOT_PASSWORD}
+    volumes:
+      - wp_db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  wordpress:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: yukis-wordpress:local
+    container_name: yukis-wordpress
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    # Simply Static fetches every page over HTTP at the site's real hostname.
+    # Without this the requests exit to Cloudflare and come back as the
+    # Synology's default page -- and once Access is enabled they would be
+    # challenged instead. Pinning the hostname to the container keeps the
+    # export loop entirely local.
+    extra_hosts:
+      - "control.yukisrescue.org:127.0.0.1"
+    ports:
+      - "${WP_HOST_PORT}:80"
+    environment:
+      WORDPRESS_DB_HOST: mariadb:3306
+      WORDPRESS_DB_NAME: ${WP_DB_NAME}
+      WORDPRESS_DB_USER: ${WP_DB_USER}
+      WORDPRESS_DB_PASSWORD: ${WP_DB_PASSWORD}
+      WORDPRESS_CONFIG_EXTRA: |
+        if (isset($$_SERVER['HTTP_X_FORWARDED_PROTO']) && $$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+            $$_SERVER['HTTPS'] = 'on';
+        }
+        // Requests from the container to itself (Simply Static's crawler)
+        // arrive over plain HTTP. Without this WordPress issues a canonical
+        // redirect to the HTTPS URL and the crawler records a 301 instead of
+        // the page.
+        if (isset($$_SERVER['REMOTE_ADDR']) && in_array($$_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1'], true)) {
+            $$_SERVER['HTTPS'] = 'on';
+        }
+        define('WP_HOME',    '${WP_PUBLIC_URL}');
+        define('WP_SITEURL', '${WP_PUBLIC_URL}');
+        define('FORCE_SSL_ADMIN', true);
+        define('DISALLOW_FILE_EDIT', true);
+    volumes:
+      - wp_uploads:/var/www/html/wp-content/uploads
+      - wp_themes:/var/www/html/wp-content/themes
+      # Bind mount, not a named volume: the publish script runs on the host as
+      # an unprivileged user, and /var/lib/docker/volumes is root-only. Inside
+      # the compose directory, so it still travels with the stack.
+      - ./export:/var/www/html/wp-content/uploads/simply-static
+      # Bind-mounted from the compose directory so it travels with the stack.
+      # An image COPY does not work here: /var/www/html is an anonymous volume
+      # and Docker only seeds it on first creation, so a rebuild would not
+      # surface new files into an existing volume.
+      - ./mu-plugins:/var/www/html/wp-content/mu-plugins:ro
+    restart: unless-stopped
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: yukis-cloudflared
+    command: tunnel --no-autoupdate --metrics 0.0.0.0:2000 run
+    environment:
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN}
+    depends_on:
+      - wordpress
+    read_only: true
+    cap_drop: [all]
+    security_opt: [no-new-privileges:true]
+    restart: unless-stopped
+
+  publisher:
+    build:
+      context: ./publisher
+    image: yukis-publisher:local
+    container_name: yukis-publisher
+    command: ["/watch-export.sh"]
+    depends_on:
+      - wordpress
+    environment:
+      EXPORT_DIR: /export/out
+      REPO_DIR: /repo
+      STATE_FILE: /state/last-export-hash
+      INTERVAL: "30"
+      SETTLE_SECONDS: "20"
+    volumes:
+      - ./export:/export:ro
+      - ./orgsite:/repo
+      - ./publish.sh:/publish.sh:ro
+      - ./watch-export.sh:/watch-export.sh:ro
+      - ./.git-credentials:/root/.git-credentials:ro
+      - publisher_state:/state
+    restart: unless-stopped
+
+volumes:
+  publisher_state:
+  wp_db:
+  wp_uploads:
+  wp_themes:
