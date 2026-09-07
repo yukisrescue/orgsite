@@ -6,7 +6,12 @@
   "assets": {
     "directory": "./"
   },
+  // Plain zone routes, matching what is actually deployed. A previous
+  // wildcard route (*.yukisrescue.org/*) also captured control.yukisrescue.org
+  // and prevented the authoring host from reaching the origin; it was removed
+  // 2026-09-07 and replaced with these two explicit routes.
   "routes": [
-    { "pattern": "www.yukisrescue.org", "custom_domain": true }
+    { "pattern": "www.yukisrescue.org/*", "zone_name": "yukisrescue.org" },
+    { "pattern": "yukisrescue.org/*",     "zone_name": "yukisrescue.org" }
   ]
 }
