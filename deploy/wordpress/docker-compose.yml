@@ -57,7 +57,10 @@ services:
     volumes:
       - wp_uploads:/var/www/html/wp-content/uploads
       - wp_themes:/var/www/html/wp-content/themes
-      - wp_export:/var/www/html/wp-content/uploads/simply-static
+      # Bind mount, not a named volume: the publish script runs on the host as
+      # an unprivileged user, and /var/lib/docker/volumes is root-only. Inside
+      # the compose directory, so it still travels with the stack.
+      - ./export:/var/www/html/wp-content/uploads/simply-static
       # Bind-mounted from the compose directory so it travels with the stack.
       # An image COPY does not work here: /var/www/html is an anonymous volume
       # and Docker only seeds it on first creation, so a rebuild would not
@@ -82,4 +85,3 @@ volumes:
   wp_db:
   wp_uploads:
   wp_themes:
-  wp_export:
