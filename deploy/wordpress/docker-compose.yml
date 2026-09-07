@@ -1,0 +1,68 @@
+services:
+  mariadb:
+    image: mariadb:11
+    container_name: yukis-mariadb
+    environment:
+      MARIADB_DATABASE: ${WP_DB_NAME}
+      MARIADB_USER: ${WP_DB_USER}
+      MARIADB_PASSWORD: ${WP_DB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${WP_DB_ROOT_PASSWORD}
+    volumes:
+      - wp_db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  wordpress:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: yukis-wordpress:local
+    container_name: yukis-wordpress
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    ports:
+      - "${WP_HOST_PORT}:80"
+    environment:
+      WORDPRESS_DB_HOST: mariadb:3306
+      WORDPRESS_DB_NAME: ${WP_DB_NAME}
+      WORDPRESS_DB_USER: ${WP_DB_USER}
+      WORDPRESS_DB_PASSWORD: ${WP_DB_PASSWORD}
+      WORDPRESS_CONFIG_EXTRA: |
+        if (isset($$_SERVER['HTTP_X_FORWARDED_PROTO']) && $$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+            $$_SERVER['HTTPS'] = 'on';
+        }
+        define('WP_HOME',    '${WP_PUBLIC_URL}');
+        define('WP_SITEURL', '${WP_PUBLIC_URL}');
+        define('FORCE_SSL_ADMIN', true);
+        define('DISALLOW_FILE_EDIT', true);
+    volumes:
+      - wp_uploads:/var/www/html/wp-content/uploads
+      - wp_themes:/var/www/html/wp-content/themes
+      - wp_export:/var/www/html/wp-content/uploads/simply-static
+    restart: unless-stopped
+
+  ddns:
+    image: favonia/cloudflare-ddns:latest
+    container_name: yukis-ddns
+    network_mode: host
+    user: "1000:1000"
+    read_only: true
+    cap_drop: [all]
+    security_opt: [no-new-privileges:true]
+    environment:
+      CLOUDFLARE_API_TOKEN: ${CF_DNS_TOKEN}
+      DOMAINS: control.yukisrescue.org
+      PROXIED: "true"
+      IP6_PROVIDER: none
+    restart: unless-stopped
+
+volumes:
+  wp_db:
+  wp_uploads:
+  wp_themes:
+  wp_export:
