@@ -47,6 +47,18 @@ $o['clear_directory_before_export'] = true;
 
 // blog_public is 0 on the authoring host, which disables wp-sitemap.xml. The
 // planned sitemap-based orphan guard is therefore dead; enumerate pages instead.
+// Core assets that the URL extractor does not discover. WordPress emits some
+// stylesheets through markup the extractor cannot parse (the block template
+// skip-link among them), so they are referenced in the exported HTML but never
+// fetched -- a 404 in production. publish.sh re-checks every referenced local
+// path after each export, so a future miss fails the publish instead of
+// reaching visitors.
+$extra_assets = [
+    '/wp-includes/css/dist/block-library/common.min.css',
+    '/wp-includes/css/wp-block-template-skip-link.min.css',
+];
+foreach ($extra_assets as $a) { $urls[] = $origin . $a; }
+
 $o['additional_urls'] = implode("\n", $urls);
 
 // The export directory lives under uploads; without this the uploads crawler

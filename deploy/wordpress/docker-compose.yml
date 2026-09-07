@@ -58,6 +58,11 @@ services:
       - wp_uploads:/var/www/html/wp-content/uploads
       - wp_themes:/var/www/html/wp-content/themes
       - wp_export:/var/www/html/wp-content/uploads/simply-static
+      # Bind-mounted from the compose directory so it travels with the stack.
+      # An image COPY does not work here: /var/www/html is an anonymous volume
+      # and Docker only seeds it on first creation, so a rebuild would not
+      # surface new files into an existing volume.
+      - ./mu-plugins:/var/www/html/wp-content/mu-plugins:ro
     restart: unless-stopped
 
   cloudflared:
