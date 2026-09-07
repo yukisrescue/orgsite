@@ -1,0 +1,63 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 3,
+  "settings": {
+    "appearanceTools": true,
+    "layout": { "contentSize": "1200px", "wideSize": "1200px" },
+    "color": {
+      "defaultPalette": false,
+      "defaultGradients": false,
+      "palette": [
+        { "slug": "primary",   "color": "#667eea", "name": "Primary" },
+        { "slug": "secondary", "color": "#764ba2", "name": "Secondary" },
+        { "slug": "surface",   "color": "#f8f9fa", "name": "Card Surface" },
+        { "slug": "footer",    "color": "#2d3748", "name": "Footer" },
+        { "slug": "body-text", "color": "#333333", "name": "Body Text" },
+        { "slug": "white",     "color": "#ffffff", "name": "White" }
+      ],
+      "gradients": [
+        {
+          "slug": "brand",
+          "name": "Brand",
+          "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+        }
+      ]
+    },
+    "typography": {
+      "fontFamilies": [
+        {
+          "slug": "system",
+          "name": "System",
+          "fontFamily": "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+        }
+      ]
+    },
+    "spacing": { "units": ["px", "rem", "%", "vh"] }
+  },
+  "styles": {
+    "color": { "text": "var(--wp--preset--color--body-text)" },
+    "typography": {
+      "fontFamily": "var(--wp--preset--font-family--system)",
+      "lineHeight": "1.6"
+    },
+    "elements": {
+      "button": {
+        "color": {
+          "background": "var(--wp--preset--color--primary)",
+          "text": "var(--wp--preset--color--white)"
+        },
+        "border": { "radius": "50px" },
+        "spacing": { "padding": { "top": "1rem", "bottom": "1rem", "left": "2rem", "right": "2rem" } },
+        "typography": { "fontWeight": "700" }
+      },
+      "h2": {
+        "color": { "text": "var(--wp--preset--color--primary)" },
+        "typography": { "fontSize": "2.5rem" }
+      }
+    }
+  },
+  "templateParts": [
+    { "name": "header", "title": "Header", "area": "header" },
+    { "name": "footer", "title": "Footer", "area": "footer" }
+  ]
+}
