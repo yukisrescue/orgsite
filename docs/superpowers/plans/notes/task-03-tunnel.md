@@ -62,14 +62,22 @@ The Task 8 fix is what keeps publishing working under Access. Exports fetch
 sees them. Had the crawler still gone out through Cloudflare, enabling Access
 would have broken every export with a 302-shaped failure.
 
-## Outstanding risk: token lifetime
+## Token layout
 
-The **only** token carrying `Cloudflare Tunnel: Edit` is `dev`, which **expires
-2026-09-14**. After that, ingress changes require a new token. Move the scope to
-a long-lived token, or accept that tunnel edits need a fresh credential.
+`Cloudflare Tunnel: Edit` lives on the **`dns`** token, which expires
+**2027-09-07**. Verified by writing the ingress configuration, not merely
+reading it. This resolves an earlier risk where the scope sat only on the
+short-lived `dev` token (expires 2026-09-14).
 
-Note the deploy token used by GitHub Actions deliberately does *not* carry
-tunnel permissions: a CI secret should not be able to reshape the network.
+| Token | Tunnel access | Expires |
+|---|---|---|
+| `dns` | read + **write** | 2027-09-07 |
+| `dev` | read + write | 2026-09-14 (short-lived, for build only) |
+| `workers` | **none** (401) | 2027-09-07 |
+
+`workers` is the token stored as a GitHub Actions secret, and it deliberately
+carries no tunnel permission: a CI secret must not be able to reshape the
+network. Confirmed by probe, not by assumption.
 
 ## Synology teardown (safe once verified)
 
