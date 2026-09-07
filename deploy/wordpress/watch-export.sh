@@ -13,6 +13,16 @@ INTERVAL="${INTERVAL:-30}"
 SETTLE_SECONDS="${SETTLE_SECONDS:-20}"
 
 mkdir -p "$(dirname "$STATE_FILE")"
+
+# Fail fast on a missing capability rather than looping forever doing nothing.
+# BusyBox find has no -printf; on Alpine without findutils the change detection
+# below evaluates to empty on every tick and the watcher silently never
+# publishes. That failure mode is invisible in the logs, so assert it here.
+if ! find /tmp -maxdepth 0 -printf '%T@\n' >/dev/null 2>&1; then
+  echo "FATAL: find(1) does not support -printf (BusyBox?). Install findutils." >&2
+  exit 1
+fi
+
 echo "publisher: watching $EXPORT_DIR every ${INTERVAL}s (settle ${SETTLE_SECONDS}s)"
 
 while true; do

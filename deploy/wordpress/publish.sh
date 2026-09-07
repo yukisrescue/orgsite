@@ -56,12 +56,29 @@ fi
 
 # --- Publish ----------------------------------------------------------------
 cd "$REPO_DIR"
+
+# Prove git is usable BEFORE relying on its output. A git failure here used to
+# surface as empty `git status` output, which the change check below read as
+# "nothing to publish" -- so a broken audit trail looked like a successful
+# no-op run. Assert instead of inferring.
+if ! git rev-parse --git-dir >/dev/null 2>&1; then
+  echo "ERROR: $REPO_DIR is not a usable git repository" >&2
+  { git rev-parse --git-dir 2>&1 || true; } | sed 's/^/  /' >&2
+  exit 1
+fi
+
 mkdir -p site
 
 # --delete so pages removed in WordPress disappear from production.
 rsync -a --delete "$EXPORT_DIR"/ site/
 
-if [ -z "$(git status --porcelain site/)" ]; then
+if ! status="$(git status --porcelain site/ 2>&1)"; then
+  echo "ERROR: git status failed, refusing to guess whether anything changed" >&2
+  echo "$status" | sed 's/^/  /' >&2
+  exit 1
+fi
+
+if [ -z "$status" ]; then
   echo "no changes to publish"
   exit 0
 fi
@@ -74,6 +91,16 @@ git -c user.email="wordpress@yukisrescue.org" \
 if [ "${SKIP_PUSH:-0}" = "1" ]; then
   echo "published locally (push skipped)"
   exit 0
+fi
+
+# Humans commit docs and configuration from elsewhere while this publishes
+# site/, so the branches diverge routinely. Rebase onto the remote before
+# pushing rather than failing every time someone else committed.
+if git fetch -q origin "$BRANCH" 2>/dev/null; then
+  if ! git rebase -q "origin/$BRANCH" 2>&1; then
+    echo "WARNING: rebase onto origin/$BRANCH failed; aborting rebase" >&2
+    git rebase --abort 2>/dev/null || true
+  fi
 fi
 
 # Best-effort. The commit above is the durable audit record and it has already

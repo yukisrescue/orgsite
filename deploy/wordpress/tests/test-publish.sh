@@ -61,6 +61,16 @@ SKIP_PUSH=1 "$PUBLISH" >/dev/null 2>&1; RC=$?
 assert "exit code is 0" "$RC" "0"
 teardown
 
+echo "test: fails loudly when git is unusable (does not report 'no changes')"
+setup
+valid_export
+rm -rf "$REPO_DIR/.git"
+OUT="$(SKIP_PUSH=1 "$PUBLISH" 2>&1)"; RC=$?
+assert "exit code is 1" "$RC" "1"
+assert "does NOT claim no changes" "$(echo "$OUT" | grep -c 'no changes')" "0"
+assert "says the repo is unusable" "$(echo "$OUT" | grep -qi 'git repository' && echo yes || echo no)" "yes"
+teardown
+
 echo "test: publishes a valid export"
 setup
 valid_export
