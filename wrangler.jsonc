@@ -3,8 +3,11 @@
   "name": "yukis-rescue-org",
   "compatibility_date": "2026-09-01",
   "workers_dev": true,
+  // Only the generated export is deployed. Before this, the assets directory
+  // was the repository root, which would have published deploy/, docs/,
+  // legacy/ and node_modules to the public site.
   "assets": {
-    "directory": "./"
+    "directory": "./site"
   },
   // Plain zone routes, matching what is actually deployed. A previous
   // wildcard route (*.yukisrescue.org/*) also captured control.yukisrescue.org

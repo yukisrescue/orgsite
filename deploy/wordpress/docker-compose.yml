@@ -81,7 +81,31 @@ services:
     security_opt: [no-new-privileges:true]
     restart: unless-stopped
 
+  publisher:
+    build:
+      context: ./publisher
+    image: yukis-publisher:local
+    container_name: yukis-publisher
+    command: ["/watch-export.sh"]
+    depends_on:
+      - wordpress
+    environment:
+      EXPORT_DIR: /export/out
+      REPO_DIR: /repo
+      STATE_FILE: /state/last-export-hash
+      INTERVAL: "30"
+      SETTLE_SECONDS: "20"
+    volumes:
+      - ./export:/export:ro
+      - ./orgsite:/repo
+      - ./publish.sh:/publish.sh:ro
+      - ./watch-export.sh:/watch-export.sh:ro
+      - ./.git-credentials:/root/.git-credentials:ro
+      - publisher_state:/state
+    restart: unless-stopped
+
 volumes:
+  publisher_state:
   wp_db:
   wp_uploads:
   wp_themes:
