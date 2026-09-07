@@ -76,5 +76,13 @@ if [ "${SKIP_PUSH:-0}" = "1" ]; then
   exit 0
 fi
 
-git push origin "$BRANCH"
-echo "published and pushed"
+# Best-effort. The commit above is the durable audit record and it has already
+# been made; GitHub is an offsite copy, not the critical path. A push failure
+# must not stop the site from being published, but it must be loud, because a
+# run of them means the audit trail is drifting from what is deployed.
+if git push origin "$BRANCH" 2>&1; then
+  echo "published and pushed"
+else
+  echo "WARNING: commit succeeded but push to origin/$BRANCH FAILED." >&2
+  echo "         The audit trail is local-only until this is resolved." >&2
+fi

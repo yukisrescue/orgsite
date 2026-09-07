@@ -95,10 +95,13 @@ services:
       STATE_FILE: /state/last-export-hash
       INTERVAL: "30"
       SETTLE_SECONDS: "20"
+      CLOUDFLARE_API_TOKEN: ${CF_WORKERS_TOKEN}
+      CLOUDFLARE_ACCOUNT_ID: ${CF_ACCOUNT_ID}
     volumes:
       - ./export:/export:ro
       - ./orgsite:/repo
       - ./publish.sh:/publish.sh:ro
+      - ./deploy.sh:/deploy.sh:ro
       - ./watch-export.sh:/watch-export.sh:ro
       - ./.git-credentials:/root/.git-credentials:ro
       - publisher_state:/state

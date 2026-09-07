@@ -36,11 +36,17 @@ while true; do
   [ "$hash" = "$prev" ] && continue
 
   echo "publisher: new export detected, publishing"
-  if EXPORT_DIR="$EXPORT_DIR" REPO_DIR="$REPO_DIR" /publish.sh; then
-    # Only record the hash on success, so a failed publish is retried rather
-    # than silently skipped until the next content change.
+  if ! EXPORT_DIR="$EXPORT_DIR" REPO_DIR="$REPO_DIR" /publish.sh; then
+    echo "publisher: publish FAILED, will retry next tick" >&2
+    continue
+  fi
+
+  if REPO_DIR="$REPO_DIR" /deploy.sh; then
+    # Record the hash only after a verified deploy, so a failure is retried
+    # rather than silently skipped until the next content change.
     echo "$hash" > "$STATE_FILE"
+    echo "publisher: published and deployed"
   else
-    echo "publisher: publish FAILED (exit $?), will retry next tick" >&2
+    echo "publisher: deploy FAILED, will retry next tick" >&2
   fi
 done
