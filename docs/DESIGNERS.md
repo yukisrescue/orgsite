@@ -1,7 +1,6 @@
 # Editing the Yuki's Rescue website
 
-This is for the people who write and design the site. No terminal, no code, no
-git. If you can use a word processor you can use this.
+This is for the people who write and design the site.
 
 ## The short version
 
@@ -9,16 +8,13 @@ You edit at **control.yukisrescue.org**. The public site is
 **www.yukisrescue.org**. They are two different places, and changes you make do
 not appear on the public site until you click **Generate Static Files**.
 
-That last part is the bit people forget. Editing is not publishing.
-
 ## Signing in
 
-There are two doors, one after the other. This surprises everyone the first
-time.
+There are two doors:
 
 **Door 1 — Cloudflare.** Go to `https://control.yukisrescue.org/wp-admin/`.
-You will be asked for your email address, then sent a one-time code. Paste the
-code back in. This keeps the internet out; it is not your website login.
+You will be asked for your email address, then sent a one-time code OR sign
+in with Google. This gate keeps the internet out.
 
 You will not do this every time. Once through, you stay signed in for 24 hours.
 
@@ -32,6 +28,8 @@ Password.
 Ask Mario. **If you get stuck at door 2**, ask Mario to reset your password —
 the "Lost your password?" link does not work on this site, because it cannot
 send email.
+
+The following sections describe site operations.
 
 ## Editing a page
 

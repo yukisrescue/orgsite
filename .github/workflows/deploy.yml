@@ -33,9 +33,12 @@ jobs:
           echo "asset count: $count"
           test "$count" -ge 4 || { echo "implausibly small export, refusing"; exit 1; }
 
+      # Wrangler requires Node >= 22. Pinning 20 fails at the upload step with
+      # "Wrangler requires at least Node.js v22.0.0", which the version-id guard
+      # below catches rather than deploying something wrong.
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - run: npm ci
 

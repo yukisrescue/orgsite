@@ -1,4 +1,7 @@
-FROM node:20-alpine
+# Node 22, not 20: wrangler requires >= 22. The pinned wrangler currently in
+# this image predates that requirement, so node:20 works today and would break
+# silently on the next rebuild when a newer wrangler is pulled.
+FROM node:22-alpine
 
 # git + rsync for the publish step, bash for the scripts.
 # findutils is essential, not cosmetic: BusyBox find has no -printf, and the
