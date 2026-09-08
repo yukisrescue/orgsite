@@ -10,6 +10,12 @@
   ],
   "vars": {
     "TO_EMAIL": "hello@yukisrescue.org",
-    "FROM_EMAIL": "noreply@send.yukisrescue.org"
+    // Resend's verified domain. DKIM lives on ruff.yukisrescue.org; the MX and
+    // SPF for bounce handling live on send.ruff.yukisrescue.org. Sending from a
+    // subdomain keeps Resend's SPF isolated from the root domain, which carries
+    // Cloudflare Email Routing and permits only one SPF record. DMARC on
+    // yukisrescue.org is p=quarantine with relaxed alignment, so a subdomain
+    // sender aligns against the organizational domain and passes.
+    "FROM_EMAIL": "noreply@ruff.yukisrescue.org"
   }
 }
