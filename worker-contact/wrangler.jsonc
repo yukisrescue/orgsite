@@ -1,0 +1,15 @@
+{
+  "name": "yukis-contact",
+  "main": "src/index.js",
+  "compatibility_date": "2026-09-01",
+  // A separate Worker on a route, not merged into the site Worker. The site
+  // Worker is assets-only; adding a script entry point to it would complicate
+  // every content deploy for the sake of one endpoint.
+  "routes": [
+    { "pattern": "www.yukisrescue.org/api/contact", "zone_name": "yukisrescue.org" }
+  ],
+  "vars": {
+    "TO_EMAIL": "hello@yukisrescue.org",
+    "FROM_EMAIL": "noreply@send.yukisrescue.org"
+  }
+}
