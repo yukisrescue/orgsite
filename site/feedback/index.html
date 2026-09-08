@@ -50,7 +50,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 /*# sourceURL=global-styles-inline-css */
 </style>
 <style id="core-block-supports-inline-css">
-.wp-container-core-navigation-is-layout-48a8d071{justify-content:flex-end;}.wp-container-core-group-is-layout-5bbb17ff{justify-content:space-between;}.wp-container-core-group-is-layout-4a58c069 > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width:1200px;margin-left:auto !important;margin-right:auto !important;}.wp-container-core-group-is-layout-4a58c069 > .alignwide{max-width:1200px;}.wp-container-core-group-is-layout-4a58c069 .alignfull{max-width:none;}.wp-container-core-group-is-layout-4a58c069 > .alignfull{margin-right:calc(2rem * -1);margin-left:calc(2rem * -1);}.wp-container-core-group-is-layout-c678955c > .alignfull{margin-right:calc(3rem * -1);margin-left:calc(3rem * -1);}.wp-container-core-group-is-layout-3a55e427 > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width:1200px;margin-left:auto !important;margin-right:auto !important;}.wp-container-core-group-is-layout-3a55e427 > .alignwide{max-width:1200px;}.wp-container-core-group-is-layout-3a55e427 .alignfull{max-width:none;}.wp-container-core-group-is-layout-3a55e427 > .alignfull{margin-right:calc(2rem * -1);margin-left:calc(2rem * -1);}.wp-container-core-group-is-layout-aea1d255 > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width:1200px;margin-left:auto !important;margin-right:auto !important;}.wp-container-core-group-is-layout-aea1d255 > .alignwide{max-width:1200px;}.wp-container-core-group-is-layout-aea1d255 .alignfull{max-width:none;}.wp-container-core-group-is-layout-aea1d255 > .alignfull{margin-right:calc(2rem * -1);margin-left:calc(2rem * -1);}
+.wp-container-core-navigation-is-layout-48a8d071{justify-content:flex-end;}.wp-container-core-group-is-layout-5bbb17ff{justify-content:space-between;}.wp-container-core-group-is-layout-4a58c069 > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width:1200px;margin-left:auto !important;margin-right:auto !important;}.wp-container-core-group-is-layout-4a58c069 > .alignwide{max-width:1200px;}.wp-container-core-group-is-layout-4a58c069 .alignfull{max-width:none;}.wp-container-core-group-is-layout-4a58c069 > .alignfull{margin-right:calc(2rem * -1);margin-left:calc(2rem * -1);}.wp-container-core-group-is-layout-3a55e427 > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width:1200px;margin-left:auto !important;margin-right:auto !important;}.wp-container-core-group-is-layout-3a55e427 > .alignwide{max-width:1200px;}.wp-container-core-group-is-layout-3a55e427 .alignfull{max-width:none;}.wp-container-core-group-is-layout-3a55e427 > .alignfull{margin-right:calc(2rem * -1);margin-left:calc(2rem * -1);}.wp-container-core-group-is-layout-aea1d255 > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width:1200px;margin-left:auto !important;margin-right:auto !important;}.wp-container-core-group-is-layout-aea1d255 > .alignwide{max-width:1200px;}.wp-container-core-group-is-layout-aea1d255 .alignfull{max-width:none;}.wp-container-core-group-is-layout-aea1d255 > .alignfull{margin-right:calc(2rem * -1);margin-left:calc(2rem * -1);}
 /*# sourceURL=core-block-supports-inline-css */
 </style>
 <style id="wp-block-template-skip-link-inline-css">
@@ -96,13 +96,90 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 <main id="wp--skip-link--target" class="wp-block-group is-layout-constrained wp-container-core-group-is-layout-3a55e427 wp-block-group-is-layout-constrained" style="padding-top:4rem;padding-right:2rem;padding-bottom:4rem;padding-left:2rem">
 <h1 class="has-text-align-center wp-block-post-title has-text-color has-primary-color">Feedback</h1>
 <div class="entry-content wp-block-post-content is-layout-constrained wp-block-post-content-is-layout-constrained">
-<div class="wp-block-group has-border-color has-surface-background-color has-background is-layout-constrained wp-container-core-group-is-layout-c678955c wp-block-group-is-layout-constrained" style="border-color:#667eea;border-style:dashed;border-width:2px;border-radius:10px;padding-top:3rem;padding-right:3rem;padding-bottom:3rem;padding-left:3rem">
-<p class="has-text-align-center wp-block-paragraph" style="font-size:1.2rem">This page is currently under construction.</p>
+<p class="wp-block-paragraph">Questions about adopting, fostering, volunteering, or anything else — send us a message and we’ll get back to you.</p>
 
 
 
-<p class="has-text-align-center wp-block-paragraph" style="font-size:1.2rem">Please check back soon for updates!</p>
-</div>
+<form id="yr-contact" novalidate style="display:flex;flex-direction:column;gap:1.25rem;max-width:34rem;margin-top:2rem;text-align:left">
+  <div style="display:flex;flex-direction:column;gap:.4rem">
+    <label for="yr-name" style="font-weight:600">Your name</label>
+    <input id="yr-name" name="name" type="text" required autocomplete="name" style="padding:.7rem .85rem;border:1px solid #ccc;border-radius:6px;font:inherit">
+  </div>
+  <div style="display:flex;flex-direction:column;gap:.4rem">
+    <label for="yr-email" style="font-weight:600">Your email</label>
+    <input id="yr-email" name="email" type="email" required autocomplete="email" style="padding:.7rem .85rem;border:1px solid #ccc;border-radius:6px;font:inherit">
+  </div>
+  <div style="display:flex;flex-direction:column;gap:.4rem">
+    <label for="yr-message" style="font-weight:600">Message</label>
+    <textarea id="yr-message" name="message" rows="6" required style="padding:.7rem .85rem;border:1px solid #ccc;border-radius:6px;font:inherit;resize:vertical"></textarea>
+  </div>
+
+  <div class="cf-turnstile" data-sitekey="0x4AAAAAAEsQMt4Xh7W-hevF" data-theme="light"></div>
+
+  <button type="submit" id="yr-submit" style="padding:1rem 2rem;border:0;border-radius:50px;background:#667eea;color:#fff;font:inherit;font-weight:700;cursor:pointer;align-self:flex-start">
+    Send message
+  </button>
+
+  <p id="yr-status" role="status" aria-live="polite" style="margin:0;min-height:1.5em"></p>
+</form>
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script>
+(function () {
+  var form = document.getElementById('yr-contact');
+  if (!form) return;
+  var status = document.getElementById('yr-status');
+  var button = document.getElementById('yr-submit');
+
+  function say(text, ok) {
+    status.textContent = text;
+    status.style.color = ok ? '#2f6b4f' : '#a8481a';
+  }
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    var token = (form.querySelector('[name="cf-turnstile-response"]') || {}).value;
+    if (!token) {
+      say('Please complete the verification below the message box, then try again.', false);
+      return;
+    }
+
+    button.disabled = true;
+    say('Sending…', true);
+
+    fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        name: form.name.value,
+        email: form.email.value,
+        message: form.message.value,
+        'cf-turnstile-response': token
+      })
+    })
+      .then(function (res) {
+        return res.json().then(function (body) { return { ok: res.ok, body: body }; });
+      })
+      .then(function (result) {
+        if (result.ok) {
+          form.reset();
+          if (window.turnstile) window.turnstile.reset();
+          say('Thank you — your message has been sent. We usually reply within a few days.', true);
+        } else {
+          say(result.body.error || 'Something went wrong. Please try again.', false);
+          if (window.turnstile) window.turnstile.reset();
+        }
+      })
+      .catch(function () {
+        say('Could not reach us just now. Please try again, or email hello@yukisrescue.org directly.', false);
+      })
+      .finally(function () {
+        button.disabled = false;
+      });
+  });
+})();
+</script>
 
 </div>
 </main>
