@@ -29,7 +29,7 @@ The Origin CA certificate (valid to 2041) stays imported as an unused fallback.
 
 Tunnel is connectivity, not authorization. **Cloudflare Access still does the
 authentication**, and was already configured on this account — team domain
-`future-2808.cloudflareaccess.com`. Unauthenticated requests are redirected to
+`yukis-rescue.cloudflareaccess.com`. Unauthenticated requests are redirected to
 the Access login and never reach node2 at all.
 
 ## Configuration
