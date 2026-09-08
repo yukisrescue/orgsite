@@ -107,6 +107,33 @@ services:
       - publisher_state:/state
     restart: unless-stopped
 
+  backup:
+    image: mariadb:11
+    container_name: yukis-backup
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    # Runs as the host user that owns the NAS directory. NFS root_squash would
+    # otherwise map root to nobody and the writes would fail.
+    user: "1000:1000"
+    entrypoint: ["/bin/bash", "/backup-loop.sh"]
+    environment:
+      WP_DB_HOST: mariadb
+      WP_DB_NAME: ${WP_DB_NAME}
+      WP_DB_USER: ${WP_DB_USER}
+      WP_DB_PASSWORD: ${WP_DB_PASSWORD}
+      DEST: /backup
+      RETAIN_DAYS: "14"
+      BACKUP_HOUR: "3"
+      BACKUP_MIN: "30"
+    volumes:
+      - wp_uploads:/data/uploads:ro
+      - wp_themes:/data/themes:ro
+      - ${BACKUP_DIR}:/backup
+      - ./backup.sh:/backup.sh:ro
+      - ./backup-loop.sh:/backup-loop.sh:ro
+    restart: unless-stopped
+
 volumes:
   publisher_state:
   wp_db:
