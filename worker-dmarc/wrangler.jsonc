@@ -1,0 +1,15 @@
+{
+  "name": "yukis-dmarc-intake",
+  "main": "src/index.js",
+  "compatibility_date": "2026-09-01",
+  "compatibility_flags": ["nodejs_compat"],
+  // Email Workers are bound by an Email Routing rule, not by a route here.
+  // Create the rule separately: dmarc@yukisrescue.org -> this worker.
+  "r2_buckets": [
+    { "binding": "REPORTS", "bucket_name": "yukis-dmarc" }
+  ],
+  "vars": {
+    "EXPECTED_RECIPIENT": "dmarc@yukisrescue.org",
+    "MAX_ATTACHMENT_BYTES": "26214400"
+  }
+}

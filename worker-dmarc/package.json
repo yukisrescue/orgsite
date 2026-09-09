@@ -1,0 +1,8 @@
+{
+  "name": "yukis-dmarc-intake",
+  "private": true,
+  "type": "module",
+  "scripts": { "test": "vitest run", "deploy": "wrangler deploy" },
+  "dependencies": { "postal-mime": "^2.4.4" },
+  "devDependencies": { "vitest": "^5.0.0", "wrangler": "^4.130.0" }
+}
