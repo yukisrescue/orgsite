@@ -92,6 +92,23 @@ This is deliberate. It means you cannot accidentally break the site in a way
 that is hard to undo, which is what makes it safe to let you publish without
 review.
 
+## Plugins and what works live
+
+There is a fuller **Editor & Designer Handbook** inside WordPress itself —
+Pages → *Editor & Designer Handbook*. It is a private page, so it never appears
+on the public site. Read it once; it covers the things below in detail.
+
+The short version:
+
+- **Plugins are site-wide or not installed at all.** This is a single WordPress
+  site, so nothing can be enabled "just for me". Only Mario can install one.
+- **Anything that needs the server to react when a visitor clicks will not work
+  on the live site** — forms from plugins, comments, search, logins. The public
+  site is plain saved files with no WordPress behind it.
+- **Constant Contact Forms is installed, and its forms will not work publicly.**
+  Use Constant Contact's own hosted form or embed code instead.
+- Layout, styling, block, gallery and SEO plugins are all fine.
+
 ## When something is wrong
 
 **A change is not showing on the live site.** Did you click Generate Static
