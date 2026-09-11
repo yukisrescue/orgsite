@@ -23,7 +23,13 @@ create_page() {
 create_page about    "About Us"                       "$SEED_DIR/placeholder.html"
 create_page rescue   "Rescue a Dog"                   "$SEED_DIR/placeholder.html"
 create_page feedback "Feedback"                       "$SEED_DIR/placeholder.html"
-create_page home     "Saving Lives, One Paw at a Time" "$SEED_DIR/home.html"
+
+HOME_ID="$(page_id home)"
+if [ -z "$HOME_ID" ]; then
+  wp post create --post_type=page --post_status=publish --post_name=home \
+    --post_title="Yuki's Rescue | Alameda, CA" --post_content=''
+fi
+APPLY=1 "$(dirname "${BASH_SOURCE[0]}")/vercel_migrate_home.sh"
 
 HOME_ID="$(page_id home)"
 wp option update show_on_front page

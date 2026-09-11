@@ -35,8 +35,10 @@ The following sections describe site operations.
 
 **Pages** in the left sidebar → click a page → edit → **Update**.
 
-Four pages exist today: Home, About Us, Rescue a Dog, and Feedback. Three of
-them still say "under construction" and are waiting for real content.
+Four pages exist today: Home, About Us, Rescue a Dog, and Feedback. Home is a
+one-page landing page with About, Mission, Get Involved, and Contact sections;
+the header links scroll to those sections. About Us, Rescue a Dog, and Feedback
+remain separate legacy pages and are not linked from the Vercel header.
 
 ## Changing how the site looks
 
