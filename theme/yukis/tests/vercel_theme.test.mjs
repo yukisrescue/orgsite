@@ -55,3 +55,33 @@ test('front-page assets and metadata are registered with prefixed names', async 
     'Yuki&#039;s Rescue | Alameda, CA',
   ]) assert.ok(php.includes(token), token);
 });
+
+test('prefixed front-page composition preserves source content', async () => {
+  const front = await text('theme/yukis/templates/front-page.html');
+  assert.match(front, /"slug":"vercel_header"/);
+  assert.match(front, /wp:post-content/);
+  assert.match(front, /"slug":"vercel_footer"/);
+
+  const combined = [
+    await text('theme/yukis/parts/vercel_header.html'),
+    await text('theme/yukis/patterns/vercel_landing.php'),
+    await text('theme/yukis/parts/vercel_footer.html'),
+  ].join('\n');
+  for (const anchor of contract.anchors) {
+    assert.match(combined, new RegExp(`id="${anchor}"`));
+  }
+  for (const heading of contract.headings) assert.ok(combined.includes(heading));
+  for (const phrase of [
+    "placeholder copy — replace with the organization's real story.",
+    'Rescue', 'Rehabilitation', 'Rehoming',
+    'Adopt', 'Volunteer', 'Donate',
+    '1221 Coral Reef Place, Alameda, CA',
+    '510.350.6924', '41-4413466',
+  ]) assert.ok(combined.includes(phrase), phrase);
+  const classes = [...combined.matchAll(/class="([^"]+)"/g)]
+    .flatMap((match) => match[1].split(/\s+/));
+  const unexpected = classes.filter((name) => ![
+    'vercel_', 'wp-', 'has-', 'is-', 'align', 'size-',
+  ].some((prefix) => name.startsWith(prefix)));
+  assert.deepEqual(unexpected, []);
+});
