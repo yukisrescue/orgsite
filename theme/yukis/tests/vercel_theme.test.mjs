@@ -25,3 +25,33 @@ test('contract contains the complete one-page anchor and heading set', () => {
   ]);
   assert.equal(contract.headings.length, 5);
 });
+
+test('theme registers the Vercel palette, fonts, and template parts', async () => {
+  const theme = JSON.parse(await text('theme/yukis/theme.json'));
+  const palette = Object.fromEntries(
+    theme.settings.color.palette.map(({ slug, color }) => [slug, color]),
+  );
+  for (const [slug, color] of Object.entries(contract.colors)) {
+    assert.equal(palette[slug], color, slug);
+  }
+  const families = theme.settings.typography.fontFamilies;
+  assert.deepEqual(families.map(({ slug }) => slug), [
+    'system', 'vercel_inter', 'vercel_fraunces',
+  ]);
+  assert.deepEqual(theme.templateParts.map(({ name }) => name), [
+    'header', 'footer', 'vercel_header', 'vercel_footer',
+  ]);
+});
+
+test('front-page assets and metadata are registered with prefixed names', async () => {
+  const php = await text('theme/yukis/functions.php');
+  for (const token of [
+    'vercel_enqueue_assets',
+    "'vercel_styles'",
+    "'vercel_reveal'",
+    'vercel_render_metadata',
+    'vercel_document_title',
+    'application/ld+json',
+    'Yuki&#039;s Rescue | Alameda, CA',
+  ]) assert.ok(php.includes(token), token);
+});

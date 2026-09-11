@@ -13,7 +13,15 @@
         { "slug": "surface",   "color": "#f8f9fa", "name": "Card Surface" },
         { "slug": "footer",    "color": "#2d3748", "name": "Footer" },
         { "slug": "body-text", "color": "#333333", "name": "Body Text" },
-        { "slug": "white",     "color": "#ffffff", "name": "White" }
+        { "slug": "white",     "color": "#ffffff", "name": "White" },
+        { "slug": "vercel_background", "color": "#faf8f4", "name": "Vercel Background" },
+        { "slug": "vercel_foreground", "color": "#2b2a28", "name": "Vercel Foreground" },
+        { "slug": "vercel_muted", "color": "#f1ece2", "name": "Vercel Muted" },
+        { "slug": "vercel_muted_foreground", "color": "#6b6459", "name": "Vercel Muted Foreground" },
+        { "slug": "vercel_border", "color": "#e4ddd0", "name": "Vercel Border" },
+        { "slug": "vercel_accent", "color": "#8a7998", "name": "Vercel Accent" },
+        { "slug": "vercel_sage", "color": "#7e8c72", "name": "Vercel Sage" },
+        { "slug": "vercel_white", "color": "#ffffff", "name": "Vercel White" }
       ],
       "gradients": [
         {
@@ -29,6 +37,36 @@
           "slug": "system",
           "name": "System",
           "fontFamily": "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+        },
+        {
+          "slug": "vercel_inter",
+          "name": "Inter",
+          "fontFamily": "Inter, Arial, sans-serif",
+          "fontFace": [{
+            "fontFamily": "Inter",
+            "fontStyle": "normal",
+            "fontWeight": "300 600",
+            "src": ["file:./assets/fonts/vercel_inter.woff2"]
+          }]
+        },
+        {
+          "slug": "vercel_fraunces",
+          "name": "Fraunces",
+          "fontFamily": "Fraunces, Georgia, serif",
+          "fontFace": [
+            {
+              "fontFamily": "Fraunces",
+              "fontStyle": "normal",
+              "fontWeight": "400 600",
+              "src": ["file:./assets/fonts/vercel_fraunces.woff2"]
+            },
+            {
+              "fontFamily": "Fraunces",
+              "fontStyle": "italic",
+              "fontWeight": "400 600",
+              "src": ["file:./assets/fonts/vercel_fraunces_italic.woff2"]
+            }
+          ]
         }
       ]
     },
@@ -58,6 +96,8 @@
   },
   "templateParts": [
     { "name": "header", "title": "Header", "area": "header" },
-    { "name": "footer", "title": "Footer", "area": "footer" }
+    { "name": "footer", "title": "Footer", "area": "footer" },
+    { "name": "vercel_header", "title": "Vercel Header", "area": "header" },
+    { "name": "vercel_footer", "title": "Vercel Footer", "area": "footer" }
   ]
 }
