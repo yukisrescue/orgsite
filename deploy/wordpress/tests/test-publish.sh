@@ -53,6 +53,17 @@ assert "names the missing asset" "$(echo "$OUT" | grep -c 'gone.css')" "1"
 assert "repo untouched" "$(cat "$REPO_DIR/site/index.html")" "old"
 teardown
 
+echo "test: refuses an export whose CSS references a missing local asset"
+setup
+valid_export
+echo '@font-face{src:url("/wp-content/themes/yukis/assets/fonts/gone.woff2")}' \
+  > "$EXPORT_DIR/wp-includes/css/a.css"
+OUT="$(SKIP_PUSH=1 "$PUBLISH" 2>&1)"; RC=$?
+assert "exit code is 1" "$RC" "1"
+assert "names the missing font" "$(echo "$OUT" | grep -c 'gone.woff2')" "1"
+assert "repo untouched" "$(cat "$REPO_DIR/site/index.html")" "old"
+teardown
+
 echo "test: bare directory references do not trip the asset check"
 setup
 valid_export

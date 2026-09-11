@@ -56,6 +56,13 @@ $o['clear_directory_before_export'] = true;
 $extra_assets = [
     '/wp-includes/css/dist/block-library/common.min.css',
     '/wp-includes/css/wp-block-template-skip-link.min.css',
+    '/wp-content/themes/yukis/assets/css/vercel_styles.css',
+    '/wp-content/themes/yukis/assets/js/vercel_reveal.js',
+    '/wp-content/themes/yukis/assets/fonts/vercel_inter.woff2',
+    '/wp-content/themes/yukis/assets/fonts/vercel_fraunces.woff2',
+    '/wp-content/themes/yukis/assets/fonts/vercel_fraunces_italic.woff2',
+    '/wp-content/themes/yukis/assets/images/vercel_logo.png',
+    '/wp-content/themes/yukis/assets/images/vercel_hero.svg',
 ];
 foreach ($extra_assets as $a) { $urls[] = $origin . $a; }
 

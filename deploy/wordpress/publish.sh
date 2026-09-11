@@ -38,7 +38,7 @@ while IFS= read -r path; do
   esac
   [ -f "$EXPORT_DIR$path" ] || missing="$missing $path"
 done <<EOF
-$(find "$EXPORT_DIR" -name '*.html' -type f -print0 \
+$(find "$EXPORT_DIR" -type f \( -name '*.html' -o -name '*.css' \) -print0 \
    | xargs -0 cat 2>/dev/null \
    | sed 's|\\/|/|g' \
    | grep -oE '/wp-(includes|content)/[A-Za-z0-9_./-]+' \
