@@ -4,7 +4,7 @@ set -euo pipefail
 WP_RUNNER="${WP_RUNNER:-}"
 wp() {
   if [ -n "$WP_RUNNER" ]; then "$WP_RUNNER" "$@"
-  else docker exec -u www-data yukis-wordpress wp "$@"
+  else docker exec -i -u www-data yukis-wordpress wp "$@"
   fi
 }
 

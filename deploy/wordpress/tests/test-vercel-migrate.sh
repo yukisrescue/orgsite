@@ -58,6 +58,7 @@ echo 'test: fresh seed delegates Home to guarded migration'
 SEED="$HERE/../wp-content-seed.sh"
 assert 'calls migration' "$(grep -c 'vercel_migrate_home.sh' "$SEED")" 1
 assert 'does not use obsolete Home seed' "$(grep -c 'seed/home.html' "$SEED")" 0
+assert 'passes pattern content to Docker WP-CLI' "$(grep -c 'docker exec -i' "$MIGRATE")" 1
 
 echo
 [ "$FAILURES" -eq 0 ] && echo 'ALL TESTS PASSED' || {
