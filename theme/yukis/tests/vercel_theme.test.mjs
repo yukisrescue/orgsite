@@ -85,3 +85,24 @@ test('prefixed front-page composition preserves source content', async () => {
   ].some((prefix) => name.startsWith(prefix)));
   assert.deepEqual(unexpected, []);
 });
+
+test('presentation preserves source breakpoints and safe enhancement', async () => {
+  const css = await text('theme/yukis/assets/css/vercel_styles.css');
+  for (const [name, value] of Object.entries(contract.colors)) {
+    assert.ok(css.includes(`--${name}: ${value}`), name);
+  }
+  for (const token of [
+    '@media (min-width: 40rem)',
+    '@media (min-width: 64rem)',
+    '@media (prefers-reduced-motion: reduce)',
+    'scroll-margin-top: 5rem',
+    'max-width: 72rem',
+    'transition-duration: 700ms',
+  ]) assert.ok(css.includes(token), token);
+
+  const js = await text('theme/yukis/assets/js/vercel_reveal.js');
+  assert.match(js, /IntersectionObserver/);
+  assert.match(js, /threshold:\s*0\.15/);
+  assert.match(js, /vercel_reveal_visible/);
+  assert.match(js, /prefers-reduced-motion/);
+});
