@@ -99,6 +99,8 @@ test('presentation preserves source breakpoints and safe enhancement', async () 
     'max-width: 72rem',
     'transition-duration: 700ms',
   ]) assert.ok(css.includes(token), token);
+  assert.match(css, /\.vercel_main a \{[^}]*color: var\(--vercel_foreground\);[^}]*text-decoration: none;/s);
+  assert.match(css, /\.vercel_section h2 \{[^}]*color: var\(--vercel_foreground\);/s);
 
   const js = await text('theme/yukis/assets/js/vercel_reveal.js');
   assert.match(js, /IntersectionObserver/);
