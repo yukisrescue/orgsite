@@ -1,0 +1,29 @@
+{
+  "source": "https://yukis-rescue-org.vercel.app/",
+  "observed": "2026-09-11",
+  "colors": {
+    "vercel_background": "#faf8f4",
+    "vercel_foreground": "#2b2a28",
+    "vercel_muted": "#f1ece2",
+    "vercel_muted_foreground": "#6b6459",
+    "vercel_border": "#e4ddd0",
+    "vercel_accent": "#8a7998",
+    "vercel_sage": "#7e8c72",
+    "vercel_white": "#ffffff"
+  },
+  "anchors": ["top", "about", "mission", "get-involved", "contact"],
+  "headings": [
+    "Second chances for dogs, one home at a time.",
+    "Who we are",
+    "What guides our work",
+    "Ways to help",
+    "We’d love to hear from you"
+  ],
+  "assets": {
+    "theme/yukis/assets/images/vercel_logo.png": "a9031257fa81cdb416d87dcae7c36227302f42272b0de22d5624ecc6078d60ef",
+    "theme/yukis/assets/images/vercel_hero.svg": "6c3cf7d09fd568a6c84cf7bad42227436ddec90d62efcacbca124a0559a0b446",
+    "theme/yukis/assets/fonts/vercel_fraunces.woff2": "88e17be075f1be50ab67b057b99e3701b828f44ed28f9452df6c02645bb0cba9",
+    "theme/yukis/assets/fonts/vercel_fraunces_italic.woff2": "c9745ee907c02cdd46cc41a65bb711cd861432f679a76c18e3de204a18723040",
+    "theme/yukis/assets/fonts/vercel_inter.woff2": "c940764593d0fe5d596be327ca7558855e018039fb78509aa21921fd3644c3e4"
+  }
+}
