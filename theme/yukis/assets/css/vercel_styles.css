@@ -36,6 +36,7 @@ html { scroll-behavior: smooth; }
 .vercel_section a { color: var(--vercel_foreground); text-decoration: none; }
 .vercel_header a, .vercel_footer a { color: var(--vercel_foreground); text-decoration: none; }
 .vercel_button .wp-block-button__link, .vercel_call_button .wp-block-button__link { display: inline-flex; border-radius: 999px; background: var(--vercel_accent); color: var(--vercel_white); padding: .875rem 1.75rem; font-size: .875rem; font-weight: 500; text-decoration: none; }
+.vercel_call_button { display: none; }
 .vercel_text_link { color: var(--vercel_foreground); font-size: .875rem; font-weight: 500; text-underline-offset: .25rem; }
 .vercel_section h2 { max-width: 32rem; margin: 1rem 0 0; color: var(--vercel_foreground); font-size: clamp(1.875rem, 5vw, 2.25rem); line-height: 1.2; }
 .vercel_about_inner { max-width: 48rem; }
@@ -58,6 +59,9 @@ html { scroll-behavior: smooth; }
 .vercel_footer_top { display: flex; flex-direction: column; gap: 2rem; }
 .vercel_footer_identity { color: var(--vercel_foreground); font-size: 1rem; }
 .vercel_footer p { margin: .25rem 0; color: var(--vercel_muted_foreground); font-size: .875rem; }
+.vercel_footer_address { display: grid; gap: .25rem; }
+.vercel_footer_address > * { margin-block: 0; }
+.vercel_footer_address > p { margin-block: 0; }
 .vercel_footer_legal { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--vercel_border); font-size: .75rem; }
 .vercel_reveal { opacity: 1; transform: none; }
 .vercel_reveal_pending { opacity: 0; transform: translateY(1.25rem); }

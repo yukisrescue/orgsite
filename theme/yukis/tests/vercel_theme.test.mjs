@@ -102,7 +102,10 @@ test('presentation preserves source breakpoints and safe enhancement', async () 
   assert.match(css, /\.vercel_main a \{[^}]*color: var\(--vercel_foreground\);[^}]*text-decoration: none;/s);
   assert.match(css, /\.vercel_section a \{[^}]*color: var\(--vercel_foreground\);[^}]*text-decoration: none;/s);
   assert.match(css, /\.vercel_section h2 \{[^}]*color: var\(--vercel_foreground\);/s);
-  assert.match(await text('theme/yukis/style.css'), /Version: 1\.1\.1/);
+  assert.match(css, /\.vercel_call_button \{[^}]*display: none;/s);
+  assert.match(css, /\.vercel_footer_address \{[^}]*gap: \.25rem;/s);
+  assert.match(css, /\.vercel_footer_address > \* \{[^}]*margin-block: 0;/s);
+  assert.match(await text('theme/yukis/style.css'), /Version: 1\.1\.2/);
 
   const js = await text('theme/yukis/assets/js/vercel_reveal.js');
   assert.match(js, /IntersectionObserver/);
