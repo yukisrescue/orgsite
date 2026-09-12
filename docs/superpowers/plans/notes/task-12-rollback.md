@@ -29,6 +29,24 @@ Roll forward is the same command against the revert commit.
 success, so a rollback that did not take effect fails loudly rather than
 appearing to work.
 
+## One-command rollback helper
+
+`deploy/wordpress/rollback-last-publish.sh` packages the procedure for node2:
+
+```bash
+# Roll back one publish state. Running it again walks to the publish before it.
+./rollback-last-publish.sh
+
+# Jump to the exact `site/` tree recorded at a commit.
+./rollback-last-publish.sh <commit-sha>
+```
+
+The no-argument mode follows publish commits and records a `rollback:` commit,
+so repeated runs are auditable and deterministic. An explicit SHA is an exact
+site-state restore, not a whole-repository reset. The helper requires a clean
+`main` worktree, deploys before pushing, and restores the publisher container's
+original running/stopped state when invoked from the host.
+
 ## Why this matters
 
 Designers publish to production unreviewed. The preview/promotion gate is
