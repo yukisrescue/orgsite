@@ -1,6 +1,5 @@
 <?php
-function vercel_enqueue_assets(): void {
-    if (!is_front_page()) { return; }
+function vercel_enqueue_styles(): void {
     $version = wp_get_theme()->get('Version');
     wp_enqueue_style(
         'vercel_styles',
@@ -8,6 +7,13 @@ function vercel_enqueue_assets(): void {
         [],
         $version
     );
+}
+add_action('wp_enqueue_scripts', 'vercel_enqueue_styles');
+add_action('enqueue_block_assets', 'vercel_enqueue_styles');
+
+function vercel_enqueue_assets(): void {
+    if (!is_front_page()) { return; }
+    $version = wp_get_theme()->get('Version');
     wp_enqueue_script(
         'vercel_reveal',
         get_theme_file_uri('assets/js/vercel_reveal.js'),
@@ -17,16 +23,6 @@ function vercel_enqueue_assets(): void {
     );
 }
 add_action('wp_enqueue_scripts', 'vercel_enqueue_assets');
-
-function vercel_enqueue_editor_assets(): void {
-    wp_enqueue_style(
-        'vercel_styles',
-        get_theme_file_uri('assets/css/vercel_styles.css'),
-        [],
-        wp_get_theme()->get('Version')
-    );
-}
-add_action('enqueue_block_editor_assets', 'vercel_enqueue_editor_assets');
 
 function vercel_render_metadata(): void {
     if (!is_front_page()) { return; }

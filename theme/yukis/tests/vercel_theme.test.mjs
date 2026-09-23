@@ -56,6 +56,24 @@ test('front-page assets and metadata are registered with prefixed names', async 
   ]) assert.ok(php.includes(token), token);
 });
 
+test('Vercel stylesheet reaches non-front pages and the editor canvas', async () => {
+  const php = await text('theme/yukis/functions.php');
+  assert.match(php, /function vercel_enqueue_styles\(\): void/);
+  assert.match(php, /add_action\('wp_enqueue_scripts', 'vercel_enqueue_styles'\)/);
+  assert.match(php, /add_action\('enqueue_block_assets', 'vercel_enqueue_styles'\)/);
+
+  const styles = php.match(
+    /function vercel_enqueue_styles\(\): void \{([\s\S]*?)\n\}/,
+  )?.[1] ?? '';
+  assert.doesNotMatch(styles, /is_front_page/);
+
+  const script = php.match(
+    /function vercel_enqueue_assets\(\): void \{([\s\S]*?)\n\}/,
+  )?.[1] ?? '';
+  assert.match(script, /if \(!is_front_page\(\)\)/);
+  assert.match(script, /wp_enqueue_script/);
+});
+
 test('prefixed front-page composition preserves source content', async () => {
   const front = await text('theme/yukis/templates/front-page.html');
   assert.match(front, /"slug":"vercel_header"/);
