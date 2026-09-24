@@ -1,9 +1,11 @@
 {
   "name": "yukis-rescue-org",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
+    "test:site": "node --test test/site_worker.test.mjs",
     "test:vercel": "node --test theme/yukis/tests/vercel_theme.test.mjs"
   },
   "devDependencies": {

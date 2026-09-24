@@ -72,6 +72,18 @@ mkdir -p site
 # --delete so pages removed in WordPress disappear from production.
 rsync -a --delete "$EXPORT_DIR"/ site/
 
+# WordPress is intentionally configured with blog_public=0 because the
+# authoring host must not be indexed. Simply Static copies that protective
+# robots tag into the generated HTML, though, which would also hide the public
+# site from Google. Apply the public policy only to the checked-in artifact;
+# the private WordPress export remains noindex.
+while IFS= read -r -d '' html; do
+  tmp="${html}.tmp"
+  sed 's/name="robots" content="noindex, nofollow"/name="robots" content="index, follow"/g' \
+    "$html" > "$tmp"
+  mv "$tmp" "$html"
+done < <(find site -type f -name '*.html' -print0)
+
 if ! status="$(git status --porcelain site/ 2>&1)"; then
   echo "ERROR: git status failed, refusing to guess whether anything changed" >&2
   echo "$status" | sed 's/^/  /' >&2

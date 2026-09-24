@@ -32,8 +32,9 @@ ids="$(wp post list --post_type=page --name=sample-page --format=ids)"
 [ -n "$ids" ] && wp post delete $ids --force || true
 wp plugin delete akismet hello 2>/dev/null || true
 
-# Discourage indexing of the authoring host. The static export is unaffected,
-# so production indexing is not impacted.
+# Discourage indexing of the authoring host. publish.sh changes the copied
+# public artifact to index/follow, so the private control host stays hidden
+# without hiding production from search engines.
 wp option update blog_public 0
 
 echo "setup complete"

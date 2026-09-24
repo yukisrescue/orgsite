@@ -92,6 +92,15 @@ assert "asset copied"        "$(cat "$REPO_DIR/site/wp-includes/css/a.css")" "bo
 assert "commit created"      "$(cd "$REPO_DIR" && git log --oneline | wc -l | tr -d ' ')" "2"
 teardown
 
+echo "test: makes public pages indexable while the authoring host stays private"
+setup
+valid_export
+echo '<meta name="robots" content="noindex, nofollow">' >> "$EXPORT_DIR/index.html"
+SKIP_PUSH=1 "$PUBLISH" >/dev/null 2>&1
+assert "robots policy is public" "$(grep -c 'name="robots" content="index, follow"' "$REPO_DIR/site/index.html")" "1"
+assert "noindex is absent" "$(grep -c 'noindex, nofollow' "$REPO_DIR/site/index.html" || true)" "0"
+teardown
+
 echo "test: removes files deleted in WordPress"
 setup
 ( cd "$REPO_DIR" && mkdir -p site/gone && echo x > site/gone/index.html && git add -A && git commit -qm stale )
