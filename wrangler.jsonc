@@ -9,7 +9,8 @@
   // legacy/ and node_modules to the public site.
   "assets": {
     "directory": "./site",
-    "binding": "ASSETS"
+    "binding": "ASSETS",
+    "run_worker_first": true
   },
   // Plain zone routes, matching what is actually deployed. A previous
   // wildcard route (*.yukisrescue.org/*) also captured control.yukisrescue.org

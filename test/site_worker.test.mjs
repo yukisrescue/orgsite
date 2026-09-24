@@ -1,6 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import worker from '../src/index.js';
+
+test('runs the Worker before Static Assets normalizes legacy HTML paths', async () => {
+  const config = await readFile(new URL('../wrangler.jsonc', import.meta.url), 'utf8');
+  assert.match(config, /"run_worker_first"\s*:\s*true/);
+});
 
 test('redirects the legacy rescue HTML URL to the home page', async () => {
   const request = new Request('https://www.yukisrescue.org/rescue.html');
