@@ -32,15 +32,24 @@ gunzip -c "$DB_ARCHIVE" | docker exec -i yukis-mariadb \
   mariadb --user="$WP_DB_USER" --password="$WP_DB_PASSWORD" "$WP_DB_NAME"
 
 echo "restoring uploads and themes..."
+if tar tzf "$CONTENT_ARCHIVE" | awk '/^plugins\// { found = 1 } END { exit !found }'; then
+  echo "archive also contains plugins"
+  volumes=(-v wordpress_wp_plugins:/data/plugins)
+else
+  echo "archive predates plugin backups; leaving current plugins untouched"
+  volumes=()
+fi
 docker run --rm \
   -v wordpress_wp_uploads:/data/uploads \
   -v wordpress_wp_themes:/data/themes \
+  "${volumes[@]}" \
   -v "$(cd "$(dirname "$CONTENT_ARCHIVE")" && pwd)":/archives:ro \
   alpine:3.20 \
   tar xzf "/archives/$(basename "$CONTENT_ARCHIVE")" -C /data
 
 docker exec yukis-wordpress chown -R www-data:www-data \
-  /var/www/html/wp-content/uploads /var/www/html/wp-content/themes
+  /var/www/html/wp-content/uploads /var/www/html/wp-content/themes \
+  /var/www/html/wp-content/plugins
 
 docker restart yukis-wordpress >/dev/null
 echo "restore complete; WordPress restarted"

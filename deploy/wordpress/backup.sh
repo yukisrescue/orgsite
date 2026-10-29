@@ -35,7 +35,13 @@ if [ "${DRY_RUN:-0}" != "1" ]; then
     --single-transaction --quick --routines --events \
     "$WP_DB_NAME" | gzip > "$db"
 
-  tar czf "$content" -C /data uploads themes
+  content_dirs=(uploads themes)
+  if [ -d /data/plugins ]; then
+    content_dirs+=(plugins)
+  else
+    echo "WARNING: plugin volume is not mounted; this archive omits plugins" >&2
+  fi
+  tar czf "$content" -C /data "${content_dirs[@]}"
 
   # A backup script that writes a corrupt archive and exits 0 is worse than no
   # backup at all, because it removes the pressure to check. Verify both.

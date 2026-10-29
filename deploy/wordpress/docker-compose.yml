@@ -57,6 +57,7 @@ services:
     volumes:
       - wp_uploads:/var/www/html/wp-content/uploads
       - wp_themes:/var/www/html/wp-content/themes
+      - wp_plugins:/var/www/html/wp-content/plugins
       # Bind mount, not a named volume: the publish script runs on the host as
       # an unprivileged user, and /var/lib/docker/volumes is root-only. Inside
       # the compose directory, so it still travels with the stack.
@@ -129,6 +130,7 @@ services:
     volumes:
       - wp_uploads:/data/uploads:ro
       - wp_themes:/data/themes:ro
+      - wp_plugins:/data/plugins:ro
       - ${BACKUP_DIR}:/backup
       - ./backup.sh:/backup.sh:ro
       - ./backup-loop.sh:/backup-loop.sh:ro
@@ -139,3 +141,4 @@ volumes:
   wp_db:
   wp_uploads:
   wp_themes:
+  wp_plugins:

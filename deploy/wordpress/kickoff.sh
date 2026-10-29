@@ -17,6 +17,7 @@ docker compose up -d
 docker exec yukis-wordpress chown -R www-data:www-data \
   /var/www/html/wp-content/uploads \
   /var/www/html/wp-content/themes \
+  /var/www/html/wp-content/plugins \
   /var/www/html/wp-content/uploads/simply-static
 
 echo "WordPress stack up."
